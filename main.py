@@ -7,8 +7,12 @@ from Data import load_data
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    # TODO: Save to file
     train_loader, val_loader, test_loader = load_data()
 
+
+    # TODO: Optimize fit() and save models to file
+    # TODO: Graph accuracies over epochs
     # Fully Connected NN
     fcnn = FCNN()
     fcnn.fit(train_loader, val_loader, device, epochs=50)
