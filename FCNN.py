@@ -8,11 +8,12 @@ class FCNN(nn.Module):
     def __init__(self):
         super(FCNN, self).__init__()
         self.fc1 = nn.Linear(32 * 32 * 3, 512)
-        self.fc2 = nn.Linear(512, 256)
-        self.fc3 = nn.Linear(256, 256)
-        self.fc4 = nn.Linear(256, 128)
-        self.fc5 = nn.Linear(128, 64)
-        self.fc6 = nn.Linear(64, 10)
+        self.fc2 = nn.Linear(512, 512)
+        self.fc3 = nn.Linear(512, 256)
+        self.fc4 = nn.Linear(256, 256)
+        self.fc5 = nn.Linear(256, 128)
+        self.fc6 = nn.Linear(128, 128)
+        self.fc7 = nn.Linear(128, 10)
 
     def forward(self, x):
         x = x.view(-1, 32 * 32 * 3)
@@ -21,7 +22,8 @@ class FCNN(nn.Module):
         x = F.relu(self.fc3(x))
         x = F.relu(self.fc4(x))
         x = F.relu(self.fc5(x))
-        return self.fc6(x)
+        x = F.relu(self.fc6(x))
+        return self.fc7(x)
 
     def fit(self, train_loader, val_loader, device, epochs=10, lr=0.001):
         """

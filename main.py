@@ -67,7 +67,7 @@ def main():
         cnn.load_state_dict(torch.load("cnn.pth", weights_only=True))
     else:
         print("\nTraining convolutional neural network...")
-        cnn_train_acc, cnn_train_loss, cnn_val_acc, cnn_val_loss = cnn.fit(train_loader, val_loader, device, epochs=50)
+        cnn_train_acc, cnn_train_loss, cnn_val_acc, cnn_val_loss = cnn.fit(train_loader, val_loader, device, epochs=60)
         torch.save(cnn.state_dict(), "cnn.pth")
 
     cnn_test_acc, cnn_test_loss = cnn.evaluate(test_loader, device, None, train=False)

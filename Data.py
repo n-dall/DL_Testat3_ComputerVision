@@ -15,8 +15,8 @@ def load_data():
         transforms.ColorJitter(brightness = 0.1,contrast = 0.1,saturation = 0.1),
         transforms.RandomAdjustSharpness(sharpness_factor = 2,p = 0.2),
         transforms.ToTensor(),
-        transforms.Normalize((0.5,), (0.5,)),
-        transforms.RandomErasing(p=0.75,scale=(0.02, 0.1),value=1.0, inplace=False)
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        transforms.RandomErasing(p=0.3,scale=(0.02, 0.1),value=1.0, inplace=False)
     ])
 
     # Load CIFAR-10 training and test datasets
