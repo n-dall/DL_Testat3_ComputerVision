@@ -42,10 +42,8 @@ def main():
 
     train_loader, val_loader, test_loader = load_data()
 
-    # TODO: Make both models a bit more complex and retrain
-
     # Fully Connected NN
-    fcnn = FCNN()
+    fcnn = FCNN().to(device)
     fcnn_train_acc, fcnn_train_loss, fcnn_val_acc, fcnn_val_loss = [], [], [], []
     if os.path.exists("fcnn.pth"):
         print("Loading saved fully connected neural network from file")
@@ -54,25 +52,27 @@ def main():
         print("Training fully connected neural network...")
         fcnn_train_acc, fcnn_train_loss, fcnn_val_acc, fcnn_val_loss = fcnn.fit(train_loader, val_loader, device, epochs=50)
         torch.save(fcnn.state_dict(), "fcnn.pth")
+        accuracy_loss_plot(fcnn_train_acc, fcnn_val_acc, fcnn_train_loss, fcnn_val_loss)
 
     fcnn_test_acc, fcnn_test_loss = fcnn.evaluate(test_loader, device, None, train=False)
     print("Final test accuracy of FCNN: " + str(fcnn_test_acc) + "%, Final test loss of FCNN: " + str(fcnn_test_loss))
-    accuracy_loss_plot(fcnn_train_acc, fcnn_val_acc, fcnn_train_loss, fcnn_val_loss)
+
 
     # CNN
-    cnn = CNN()
+    cnn = CNN().to(device)
     cnn_train_acc, cnn_train_loss, cnn_val_acc, cnn_val_loss = [], [], [], []
     if os.path.exists("cnn.pth"):
         print("\nLoading saved convolutional neural network from file")
         cnn.load_state_dict(torch.load("cnn.pth", weights_only=True))
     else:
         print("\nTraining convolutional neural network...")
-        cnn_train_acc, cnn_train_loss, cnn_val_acc, cnn_val_loss = cnn.fit(train_loader, val_loader, device, epochs=60)
+        cnn_train_acc, cnn_train_loss, cnn_val_acc, cnn_val_loss = cnn.fit(train_loader, val_loader, device, epochs=90)
         torch.save(cnn.state_dict(), "cnn.pth")
+        accuracy_loss_plot(cnn_train_acc, cnn_val_acc, cnn_train_loss, cnn_val_loss)
 
     cnn_test_acc, cnn_test_loss = cnn.evaluate(test_loader, device, None, train=False)
     print("Final test accuracy of CNN: " + str(cnn_test_acc) + "%, Final test loss of CNN: " + str(cnn_test_loss))
-    accuracy_loss_plot(cnn_train_acc, cnn_val_acc, cnn_train_loss, cnn_val_loss)
+
 
 
 if __name__ == "__main__":
